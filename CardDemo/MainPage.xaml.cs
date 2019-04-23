@@ -47,6 +47,7 @@ namespace CardDemo
             lists.Add(new CardTitle { cardTitle = "plan", contents = contentLists });
 
             this.cardTitleVM.CardTitles = lists;
+            //this.cardTitleVM.CardTitles.Add(new CardTitle { cardTitle = "to do", contents = contentLists });
         }
         public CardTitleVM cardTitleVM { get; set; }
 
