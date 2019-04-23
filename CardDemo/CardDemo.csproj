@@ -116,12 +116,18 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="View\AddCardContentPage.xaml.cs">
+      <DependentUpon>AddCardContentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CardContentModel.cs" />
-    <Compile Include="CardTitleModel.cs" />
-    <Compile Include="CardTitleVM.cs" />
+    <Compile Include="Model\CardContentModel.cs" />
+    <Compile Include="VM\CardTitleViewModel.cs" />
+    <Compile Include="View\SingleCardUserControl.xaml.cs">
+      <DependentUpon>SingleCardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VM\CardTitleVM.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -140,6 +146,8 @@
     <None Include="CardDemo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\delete.png" />
+    <Content Include="Assets\tianjia.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -154,9 +162,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\AddCardContentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SingleCardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DisplayCardView.xaml">
       <SubType>Designer</SubType>

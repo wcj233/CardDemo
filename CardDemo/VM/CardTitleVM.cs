@@ -17,8 +17,8 @@ namespace CardDemo
     public class CardTitleVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        private ObservableCollection<CardTitleModel> myCardTitles = new ObservableCollection<CardTitleModel>();
-        public ObservableCollection<CardTitleModel> CardTitles {
+        private ObservableCollection<CardTitleViewModel> myCardTitles = new ObservableCollection<CardTitleViewModel>();
+        public ObservableCollection<CardTitleViewModel> CardTitles {
             get { return this.myCardTitles; }
             set
             {

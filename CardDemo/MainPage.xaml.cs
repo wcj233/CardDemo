@@ -29,28 +29,77 @@ namespace CardDemo
         public MainPage()
         {
             this.InitializeComponent();
-            this.cardTitleVM = new CardTitleVM();
+            //this.cardTitleVM = new CardTitleVM();
         }
 
+        private ObservableCollection<CardTitleViewModel> cardLists = new ObservableCollection<CardTitleViewModel>();
+        private ObservableCollection<SingleCardUserControl> cardUCLists = new ObservableCollection<SingleCardUserControl>();
         private void AddListButton_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
         private void AddSuccess_Click(object sender, RoutedEventArgs e)
         {
-            //add list view
-            ObservableCollection<CardTitleModel> lists = new ObservableCollection<CardTitleModel>();
-            ObservableCollection<CardContent> contentLists = new ObservableCollection<CardContent>();
-            contentLists.Add(new CardContent { ContentTitle = "today", ContentDetail = "work"});
-            contentLists.Add(new CardContent { ContentTitle = "yesterday", ContentDetail = "not work" });
-            lists.Add(new CardTitleModel { HeaderTitle = "to do", Contents = contentLists });
-            lists.Add(new CardTitleModel { HeaderTitle = "doing", Contents = contentLists });
-            lists.Add(new CardTitleModel { HeaderTitle = "plan", Contents = contentLists });
+            //add list view      ***judge is existed the same title***
+            tipTextBlock.Text = "";
+            if (tipTextBox.Text.Length > 0)
+            {
+                //data
+                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+                long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds;
+                ObservableCollection<CardTitleViewModel> lists = new ObservableCollection<CardTitleViewModel>();
+                lists.Add(new CardTitleViewModel { CardId = timeStamp, HeaderTitle = "to do", Contents = new ObservableCollection<CardContent>() });
+                //add userControl
+                SingleCardUserControl singleCardUC = new SingleCardUserControl();
+                singleCardUC.cardTitleModel.Contents = new ObservableCollection<CardContent>();
+                singleCardUC.cardTitleModel.HeaderTitle = "to do";
+                singleCardUC.HorizontalAlignment = HorizontalAlignment.Left;
+                singleCardUC.Margin = new Thickness(15, 0, 0, 0);
+                singleCardUC.DeleteCardListEvent += deleteCardListAction;
+                CardPanel.Children.Add(singleCardUC);
 
-            this.cardTitleVM.CardTitles = lists;
-            //this.cardTitleVM.CardTitles.Add(new CardTitle { cardTitle = "to do", contents = contentLists });
+                tipTextBlock.Text = "";
+                this.cardLists = lists;
+                this.cardUCLists.Add(singleCardUC);
+            }
+            else {
+                tipTextBlock.Text = "The title is empty.Please enter a title";
+            }
+            
         }
-        public CardTitleVM cardTitleVM { get; set; }
+        //public CardTitleVM cardTitleVM { get; set; }
+
+        private async void deleteCardListAction(object parameter) {
+            //dialog
+            CardTitleViewModel model = parameter as CardTitleViewModel;
+            ContentDialog deleteDialog = new ContentDialog
+            {
+                Title = "Delete",
+                Content = "Are you sure to delete" + " \"" + model.HeaderTitle + " \" list",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                int index = 0;
+                for (int i = 0; i < this.cardLists.Count; i++)
+                {
+                    CardTitleViewModel singleVM = this.cardLists[i];
+                    if (singleVM.CardId == model.CardId)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                SingleCardUserControl deleteCardUC = this.cardUCLists[index];
+                CardPanel.Children.Remove(deleteCardUC);
+                this.cardUCLists.RemoveAt(index);
+                this.cardLists.RemoveAt(index);
+            }
+            
+        }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
