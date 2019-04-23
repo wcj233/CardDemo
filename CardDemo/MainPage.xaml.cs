@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -38,13 +39,13 @@ namespace CardDemo
         private void AddSuccess_Click(object sender, RoutedEventArgs e)
         {
             //add list view
-            ObservableCollection<CardTitle> lists = new ObservableCollection<CardTitle>();
+            ObservableCollection<CardTitleModel> lists = new ObservableCollection<CardTitleModel>();
             ObservableCollection<CardContent> contentLists = new ObservableCollection<CardContent>();
             contentLists.Add(new CardContent { ContentTitle = "today", ContentDetail = "work"});
             contentLists.Add(new CardContent { ContentTitle = "yesterday", ContentDetail = "not work" });
-            lists.Add(new CardTitle { cardTitle = "to do", contents = contentLists });
-            lists.Add(new CardTitle { cardTitle = "doing", contents = contentLists });
-            lists.Add(new CardTitle { cardTitle = "plan", contents = contentLists });
+            lists.Add(new CardTitleModel { HeaderTitle = "to do", Contents = contentLists });
+            lists.Add(new CardTitleModel { HeaderTitle = "doing", Contents = contentLists });
+            lists.Add(new CardTitleModel { HeaderTitle = "plan", Contents = contentLists });
 
             this.cardTitleVM.CardTitles = lists;
             //this.cardTitleVM.CardTitles.Add(new CardTitle { cardTitle = "to do", contents = contentLists });

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace CardDemo
 {
-    public class CardTitle {
-        public String cardTitle = "to do";
-        public ObservableCollection<CardContent> contents = new ObservableCollection<CardContent>();
-    }
+    //public class CardTitle {
+    //    public String headerTitle = "to do";
+    //    public ObservableCollection<CardContent> contents = new ObservableCollection<CardContent>();
+    //}
 
     public class CardTitleVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        private ObservableCollection<CardTitle> myCardTitles = new ObservableCollection<CardTitle>();
-        public ObservableCollection<CardTitle> CardTitles {
+        private ObservableCollection<CardTitleModel> myCardTitles = new ObservableCollection<CardTitleModel>();
+        public ObservableCollection<CardTitleModel> CardTitles {
             get { return this.myCardTitles; }
             set
             {
