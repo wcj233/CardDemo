@@ -28,9 +28,7 @@ namespace CardDemo
         public MainPage()
         {
             this.InitializeComponent();
-            this.cardTitleModel = new CardTitleModel();
-            this.cardContentModel = new CardContentModel();
-            this.DataContext = this.cardTitleModel;
+            this.cardTitleVM = new CardTitleVM();
         }
 
         private void AddListButton_Click(object sender, RoutedEventArgs e)
@@ -42,15 +40,15 @@ namespace CardDemo
             //add list view
             ObservableCollection<CardTitle> lists = new ObservableCollection<CardTitle>();
             ObservableCollection<CardContent> contentLists = new ObservableCollection<CardContent>();
-            contentLists.Add(new CardContent { contentTitle = "today", contentDetail = "work"});
+            contentLists.Add(new CardContent { ContentTitle = "today", ContentDetail = "work"});
+            contentLists.Add(new CardContent { ContentTitle = "yesterday", ContentDetail = "not work" });
             lists.Add(new CardTitle { cardTitle = "to do", contents = contentLists });
             lists.Add(new CardTitle { cardTitle = "doing", contents = contentLists });
-            
-            this.cardTitleModel.CardTitles = lists;
-            this.cardContentModel.CardContents = contentLists;
+            lists.Add(new CardTitle { cardTitle = "plan", contents = contentLists });
+
+            this.cardTitleVM.CardTitles = lists;
         }
-        public CardTitleModel cardTitleModel { get; set; }
-        public CardContentModel cardContentModel { get; set; }
+        public CardTitleVM cardTitleVM { get; set; }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

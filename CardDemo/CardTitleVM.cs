@@ -14,7 +14,7 @@ namespace CardDemo
         public ObservableCollection<CardContent> contents = new ObservableCollection<CardContent>();
     }
 
-    public class CardTitleModel : INotifyPropertyChanged
+    public class CardTitleVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private ObservableCollection<CardTitle> myCardTitles = new ObservableCollection<CardTitle>();
@@ -26,18 +26,8 @@ namespace CardDemo
                 this.OnPropertyChanged();
             }
         }
-        //private ObservableCollection<CardContent> myexistContents = new ObservableCollection<CardContent>();
-        //public ObservableCollection<CardContent> existContents
-        //{
-        //    get { return this.myexistContents; }
-        //    set
-        //    {
-        //        this.myexistContents = value;
-        //        this.OnPropertyChanged();
-        //    }
-        //}
 
-        public CardTitleModel() {
+        public CardTitleVM() {
         }
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
