@@ -25,8 +25,8 @@ namespace CardDemo
             set { contentDetail = value; }
         }
 
-        private double alarmTime;
-        public double AlarmTime
+        private string alarmTime;
+        public string AlarmTime
         {
             get { return alarmTime; }
             set { alarmTime = value; }

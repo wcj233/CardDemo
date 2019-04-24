@@ -55,12 +55,12 @@ namespace CardDemo
                 lists.Add(new CardTitleViewModel { CardId = timeStamp, HeaderTitle = "to do", Contents = new ObservableCollection<CardContent>() });
                 //add userControl
                 SingleCardUserControl singleCardUC = new SingleCardUserControl();
-                singleCardUC.cardTitleModel.Contents = new ObservableCollection<CardContent>();
-                singleCardUC.cardTitleModel.HeaderTitle = "to do";
+                singleCardUC.cardTitleVM.Contents = new ObservableCollection<CardContent>();
+                singleCardUC.cardTitleVM.HeaderTitle = "to do";
                 singleCardUC.HorizontalAlignment = HorizontalAlignment.Left;
                 singleCardUC.Margin = new Thickness(15, 0, 0, 0);
-                singleCardUC.CanDrag = true;
                 singleCardUC.DeleteCardListEvent += deleteCardListAction;
+                singleCardUC.ListViewChangeItemEvent += SingleCardUC_ListViewChangeItemEvent;
                 CardPanel.Children.Add(singleCardUC);
 
                 tipTextBlock.Text = "";
@@ -72,6 +72,25 @@ namespace CardDemo
             }
             
         }
+
+        private CardContent dragCardContent;
+        private CardTitleViewModel originalCardTitleVM;
+        private void SingleCardUC_ListViewChangeItemEvent(CardTitleViewModel exchangeCardTitleVM, CardContent exchangeContent)
+        {
+            if (exchangeContent != null)
+            {
+                this.dragCardContent = exchangeContent;
+                this.originalCardTitleVM = exchangeCardTitleVM;
+            }
+            else {
+                //complete
+                this.originalCardTitleVM.Contents.Remove(this.dragCardContent);
+                exchangeCardTitleVM.Contents.Insert(0,this.dragCardContent);
+            }
+        }
+
+
+
         //public CardTitleVM cardTitleVM { get; set; }
 
         private async void deleteCardListAction(object parameter) {

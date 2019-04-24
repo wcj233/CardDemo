@@ -28,7 +28,7 @@ namespace CardDemo
         //internal event AddContentEventHandler AddCardContentEvent;
         private Color mycolor;
         private CardTitleViewModel model;
-        private double selectedAlarmTime;
+        private string selectedAlarmTime;
         public AddCardContentPage()
         {
             this.InitializeComponent();
@@ -71,7 +71,12 @@ namespace CardDemo
 
         private void AlarmTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            selectedAlarmTime = alarmTime.Time.TotalMilliseconds;
+            //selectedAlarmTime = alarmTime.SelectedTime.TotalMilliseconds;
+            //int time = alarmTime.Time.Milliseconds;
+
+            selectedAlarmTime = (sender as TimePicker).Time.ToString(@"hh\:mm");
+            
+
         }
     }
 }
