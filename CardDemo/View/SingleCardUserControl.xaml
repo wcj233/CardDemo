@@ -65,16 +65,16 @@
 
     </UserControl.Resources>
 
-    <Grid Width="330">
+    <Grid Width="330"> <Image Source="/Assets/delete.png"/>
         <StackPanel BorderThickness="1" BorderBrush="LightGray" CornerRadius="4" Height="562" VerticalAlignment="Top" >
             <RelativePanel Width="330" Height="60" Background="#f6f7f8">
                 <Button x:Name="cardContentNum" Content="{x:Bind cardTitleModel.Contents.Count,Mode=OneWay}" Style="{StaticResource ButtonStyle2}" Margin="10,0,0,0" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 <TextBlock x:Name="cardTitle" Text="{x:Bind cardTitleModel.HeaderTitle,Mode=OneWay}" VerticalAlignment="Center" RelativePanel.RightOf="cardContentNum" Margin="10" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                <Button x:Name="deleteImage" Width="20" Height="20" RelativePanel.AlignRightWithPanel="True" Margin="0,0,20,0" RelativePanel.AlignVerticalCenterWithPanel="True">
-                    <Image Source="Assets/delete.png"/>
+                <Button x:Name="deleteImage" Width="20" Height="20" RelativePanel.AlignRightWithPanel="True" Padding="0" BorderThickness="0" RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <Image Source="/Assets/delete.png"/>
                 </Button>
-                <Button x:Name="addImage" RelativePanel.LeftOf="deleteImage" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,20,0" Width="20" Height="20">
-                    <Image Source="Assets/tianjia.png"/>
+                <Button x:Name="addImage" RelativePanel.LeftOf="deleteImage" Padding="0" BorderThickness="0" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,20,0" Width="20" Height="20">
+                    <Image Source="/Assets/tianjia.png"/>
                 </Button>
                 <!--<Image Source="Assets/delete.png" x:Name="deleteImage" Width="20" Height="20" RelativePanel.AlignRightWithPanel="True" Margin="0,0,20,0" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 <Image Source="Assets/tianjia.png" x:Name="addImage" RelativePanel.LeftOf="deleteImage" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,20,0" Width="20" Height="20"/>-->
