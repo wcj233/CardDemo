@@ -124,8 +124,8 @@
                                 <ColumnDefinition Width="200"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Ellipse Fill="{x:Bind StatusColor}" Height="10" Width="10" VerticalAlignment="Top" Margin="0,10,0,0"/>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{x:Bind ContentTitle}" VerticalAlignment="Top" Margin="-5,5,0,0"/>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="{x:Bind ContentTitle}" VerticalAlignment="Top" Margin="-5,5,0,0"/>
                                         <TextBlock Text="{x:Bind ContentDetail}" Margin="-5,10,0,10"/>
                                     </StackPanel>
                                 </Grid>

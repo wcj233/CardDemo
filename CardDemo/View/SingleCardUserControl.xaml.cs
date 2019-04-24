@@ -27,9 +27,7 @@ namespace CardDemo
             this.cardTitleModel = new CardTitleViewModel();
             deleteImage.Tapped += DeleteImage_Tapped;
             addImage.Tapped += AddImage_Tapped;
-            cardContentListView.DragItemsCompleted += CardContentListView_DragItemsCompleted;
             cardContentListView.ContainerContentChanging += CardContentListView_ContainerContentChanging;
-            
         }
 
         private void CardContentListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -37,9 +35,18 @@ namespace CardDemo
             
         }
 
+        private void CardContentListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            
+        }
+
         private void CardContentListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
         {
-            throw new NotImplementedException();
+            if (args.DropResult == Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy) {
+                //listView and listView
+            } else if (args.DropResult == Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move) {
+                //item and item
+            }
         }
 
         private void AddImage_Tapped(object sender, TappedRoutedEventArgs e)
@@ -63,7 +70,6 @@ namespace CardDemo
             CardContent clickVM = item.DataContext as CardContent;
             this.cardTitleModel.Contents.Remove(clickVM);
         }
-
         
     }
 }
