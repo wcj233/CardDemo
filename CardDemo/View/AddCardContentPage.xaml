@@ -27,19 +27,22 @@
             <RelativePanel>
                 <Button Style="{StaticResource NavigationBackButtonNormalStyle}" Margin="10" Click="backToPre"/>
                 <TextBlock Text="Add a content" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="20" Margin="0,20,0,20"/>
+                <Button x:Name="submitButton" Content="Submit" Click="SubmitAction" RelativePanel.AlignRightWithPanel="True" Margin="0,20,40,0">
+                </Button>
             </RelativePanel>
             <TextBlock Text="Enter title."/>
-            <TextBox></TextBox>
+            <TextBox x:Name="titleTextBox"></TextBox>
             <TextBlock Text="Enter Content."/>
-            <TextBox Height="150"></TextBox>
+            <TextBox x:Name="contentTextBox" Height="150"></TextBox>
             <TextBlock Text="Select Timing Alarm(Option)."/>
-            <TimePicker x:Name="alarmTime" Margin="20,10,0,0"/>
+            <TimePicker x:Name="alarmTime" Margin="20,10,0,0" SelectedTimeChanged="AlarmTime_SelectedTimeChanged"/>
             <TextBlock Text="Select a color marker."/>
             <ColorPicker x:Name="myColorPicker"
              ColorSpectrumShape="Ring"
              IsColorPreviewVisible="False"
              IsColorChannelTextInputVisible="False"
-             IsHexInputVisible="False" HorizontalAlignment="Left" Margin="20,10,0,0"/>
+             IsHexInputVisible="False" HorizontalAlignment="Left" Margin="20,10,0,0" ColorChanged="MyColorPicker_ColorChanged"/>
+            
         </StackPanel>
 
     </Grid>

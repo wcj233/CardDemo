@@ -15,7 +15,7 @@
             <Button x:Name="AddListButton" Width="40" Height="35" Click="AddListButton_Click" Margin="40,0,30,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout>
+                    <Flyout x:Name="addFlyout">
                         <StackPanel>
                             <TextBlock Text="Add a list" FontSize="16"/>
                             <TextBlock Text="Title" FontSize="13" Margin="0,10,10,10"/>
@@ -29,7 +29,7 @@
             </Button>
             <AutoSuggestBox PlaceholderText="Filter cards" Width="200" Height="35" QueryIcon="Find" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="AddListButton" />
         </RelativePanel>
-        <StackPanel x:Name="CardPanel" Background="White" Margin="0,170,0,0" Orientation="Horizontal">
+        <StackPanel x:Name="CardPanel" Background="White" Margin="0,170,0,0" Orientation="Horizontal" AllowDrop="True" DragOver="CardPanel_DragOver" Drop="CardPanel_Drop">
             <!--<ListView ItemsSource="{x:Bind cardTitleVM.CardTitles,Mode=OneWay}" 
                       ScrollViewer.HorizontalScrollMode="Enabled" 
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"

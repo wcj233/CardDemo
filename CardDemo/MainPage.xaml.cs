@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -29,6 +30,7 @@ namespace CardDemo
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             //this.cardTitleVM = new CardTitleVM();
         }
 
@@ -44,6 +46,8 @@ namespace CardDemo
             tipTextBlock.Text = "";
             if (tipTextBox.Text.Length > 0)
             {
+                addFlyout.Hide();
+                tipTextBox.Text = "";
                 //data
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
                 long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds;
@@ -55,6 +59,7 @@ namespace CardDemo
                 singleCardUC.cardTitleModel.HeaderTitle = "to do";
                 singleCardUC.HorizontalAlignment = HorizontalAlignment.Left;
                 singleCardUC.Margin = new Thickness(15, 0, 0, 0);
+                singleCardUC.CanDrag = true;
                 singleCardUC.DeleteCardListEvent += deleteCardListAction;
                 CardPanel.Children.Add(singleCardUC);
 
@@ -102,6 +107,16 @@ namespace CardDemo
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CardPanel_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+
+        private void CardPanel_Drop(object sender, DragEventArgs e)
         {
 
         }

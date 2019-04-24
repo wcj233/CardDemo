@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace CardDemo
 {
@@ -23,9 +24,17 @@ namespace CardDemo
             get { return contentDetail; }
             set { contentDetail = value; }
         }
-        private Color statusColor;
 
-        public Color StatusColor {
+        private double alarmTime;
+        public double AlarmTime
+        {
+            get { return alarmTime; }
+            set { alarmTime = value; }
+        }
+
+        private Brush statusColor;
+
+        public Brush StatusColor {
             get { return statusColor; }
             set { statusColor = value; }
         }

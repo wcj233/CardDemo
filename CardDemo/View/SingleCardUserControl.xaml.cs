@@ -24,17 +24,28 @@ namespace CardDemo
         public SingleCardUserControl()
         {
             this.InitializeComponent();
-           
             this.cardTitleModel = new CardTitleViewModel();
             deleteImage.Tapped += DeleteImage_Tapped;
             addImage.Tapped += AddImage_Tapped;
+            cardContentListView.DragItemsCompleted += CardContentListView_DragItemsCompleted;
+            cardContentListView.ContainerContentChanging += CardContentListView_ContainerContentChanging;
+            
+        }
+
+        private void CardContentListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            
+        }
+
+        private void CardContentListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            throw new NotImplementedException();
         }
 
         private void AddImage_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame root = Window.Current.Content as Frame;
-            //这里参数自动装箱
-            root.Navigate(typeof(AddCardContentPage));
+            root.Navigate(typeof(AddCardContentPage),this.cardTitleModel);
         }
 
         private void DeleteImage_Tapped(object sender, TappedRoutedEventArgs e)
@@ -44,5 +55,15 @@ namespace CardDemo
         }
 
         public CardTitleViewModel cardTitleModel { get; set; }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFlyoutItem item = sender as MenuFlyoutItem;
+            //delete
+            CardContent clickVM = item.DataContext as CardContent;
+            this.cardTitleModel.Contents.Remove(clickVM);
+        }
+
+        
     }
 }
