@@ -12,6 +12,13 @@ using Windows.UI.Xaml.Media;
 namespace CardDemo
 {
     public class CardContent {
+        private string toastId;
+        public string ToastId
+        {
+            get { return toastId; }
+            set { toastId = value; }
+        }
+
         private string contentTitle;
         public string ContentTitle {
             get { return contentTitle; }

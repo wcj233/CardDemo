@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Xaml.Media.Animation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -65,7 +67,8 @@ namespace CardDemo
         private void AddImage_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame root = Window.Current.Content as Frame;
-            root.Navigate(typeof(AddCardContentPage),this.cardTitleVM);
+            //animation
+            root.Navigate(typeof(AddCardContentPage),this.cardTitleVM, new DrillInNavigationTransitionInfo());
         }
 
         private void DeleteImage_Tapped(object sender, TappedRoutedEventArgs e)
@@ -82,6 +85,11 @@ namespace CardDemo
             //delete
             CardContent clickVM = item.DataContext as CardContent;
             this.cardTitleVM.Contents.Remove(clickVM);
+            //remove toast
+            if (clickVM.AlarmTime != null) {
+                ToastUtil toastUtil = new ToastUtil();
+                toastUtil.removeToast(clickVM);
+            }
         }
 
         private void CardContentListView_DragOver(object sender, DragEventArgs e)
@@ -99,23 +107,15 @@ namespace CardDemo
 
     public class TimeFormatter : IValueConverter
     {
-        private void OnScheduleToast(string timeStr)
+        private void OnScheduleToast(string timeStr,string title,string content)
 
         {
-            DateTime dt = DateTime.Parse(timeStr);
-            var date = new DateTime(1970, 1, 1, 0, 0, 0, dt.Kind);
-            var unixTimestamp = System.Convert.ToInt64((dt - date).TotalSeconds);
-            string xml = @"<toast><visual><binding template=""ToastGeneric""><text>Hello!</text>
-                           <text>This is a scheduled toast!</text></binding>
-                           </visual></toast>";
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-            ScheduledToastNotification toast = new ScheduledToastNotification(doc, DateTimeOffset.Now.AddMilliseconds(unixTimestamp));
-
-            ToastNotificationManager.CreateToastNotifier().AddToSchedule(toast);
-
+            ToastUtil toastUtil = new ToastUtil();
+            toastUtil.showToast(timeStr,title,content);
         }
 
+        //private string title;
+        //private string content;
         // This converts the DateTime object to the string to display.
         public object Convert(object value, Type targetType, 
             object parameter, string language)
@@ -124,10 +124,17 @@ namespace CardDemo
             //System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
             //DateTime dt = startTime.AddMilliseconds(timeValue);
             //dt.ToString("HH:mm")
+            //if (parameter is "title") {
+            //    this.title = value as string;
+            //    return value;
+            //} else if (parameter is "content") {
+            //    this.content = value as string;
+            //    return value;
+            //}
             if (value != null)
             {
-                OnScheduleToast(value.ToString());
-                string text = "Alarm time" + value.ToString();
+                
+                string text = "Alarm time：" + value.ToString();
                 return text;
             }
             else {

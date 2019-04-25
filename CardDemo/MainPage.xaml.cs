@@ -121,6 +121,14 @@ namespace CardDemo
                 CardPanel.Children.Remove(deleteCardUC);
                 this.cardUCLists.RemoveAt(index);
                 this.cardLists.RemoveAt(index);
+
+                foreach (CardContent content in deleteCardUC.cardTitleVM.Contents) {
+                    if (content.AlarmTime != null) {
+                        ToastUtil toastUtil = new ToastUtil();
+                        toastUtil.removeToast(content);
+                    }
+                }
+
             }
             
         }

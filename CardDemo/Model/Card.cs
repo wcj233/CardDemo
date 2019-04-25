@@ -24,6 +24,6 @@ namespace CardDemo.Model
             get { return cardtitle; }
             set { cardtitle = value; }
         }
-
+        
     }
 }

@@ -47,7 +47,13 @@ namespace CardDemo
                 ObservableCollection<CardContent> lists = this.model.Contents;
                 SolidColorBrush brush = new SolidColorBrush();
                 brush.Color = mycolor;
-                lists.Add(new CardContent { ContentTitle = titleTextBox.Text,ContentDetail = contentTextBox.Text,AlarmTime = selectedAlarmTime, StatusColor = brush});
+                //noti
+                string toastId = null;
+                if (selectedAlarmTime != null) {
+                    ToastUtil toastUtil = new ToastUtil();
+                    toastId = toastUtil.showToast(selectedAlarmTime, titleTextBox.Text, contentTextBox.Text);
+                }
+                lists.Add(new CardContent { ContentTitle = titleTextBox.Text,ContentDetail = contentTextBox.Text,AlarmTime = selectedAlarmTime, StatusColor = brush,ToastId = toastId});
                 this.model.Contents = lists;
                 Frame.GoBack();
             }
