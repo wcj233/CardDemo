@@ -18,6 +18,11 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI;
+using System.Numerics;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -37,11 +42,38 @@ namespace CardDemo
             deleteImage.Tapped += DeleteImage_Tapped;
             addImage.Tapped += AddImage_Tapped;
             cardContentListView.ContainerContentChanging += CardContentListView_ContainerContentChanging;
+
+            //shadow
+            //Visual gridVisual = ElementCompositionPreview.GetElementVisual();
+
+
+
         }
 
         private void CardContentListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            
+            var presenter = VisualTreeHelper.GetChild(args.ItemContainer, 0) as ListViewItemPresenter;
+            var contentHost = VisualTreeHelper.GetChild(presenter, 0) as Grid;
+            var shadowHost = VisualTreeHelper.GetChild(contentHost, 0) as Canvas;
+            var content = VisualTreeHelper.GetChild(contentHost, 1) as Grid;
+
+            var contentVisual = ElementCompositionPreview.GetElementVisual(content);
+            Compositor _compositor = contentVisual.Compositor;
+
+            var sprite = _compositor.CreateSpriteVisual();
+
+            var shadow = _compositor.CreateDropShadow();
+            sprite.Shadow = shadow;
+
+            shadow.BlurRadius = 3;
+            shadow.Offset = new Vector3(0, 3, 0);
+            shadow.Color = Colors.LightGray;
+            ElementCompositionPreview.SetElementChildVisual(shadowHost, sprite);
+
+            var bindSizeAnimation = _compositor.CreateExpressionAnimation("contentVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("contentVisual", contentVisual);
+
+            sprite.StartAnimation("Size", bindSizeAnimation);
         }
 
         private void CardContentListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
@@ -68,7 +100,7 @@ namespace CardDemo
         {
             Frame root = Window.Current.Content as Frame;
             //animation
-            root.Navigate(typeof(AddCardContentPage),this.cardTitleVM, new DrillInNavigationTransitionInfo());
+            root.Navigate(typeof(AddCardContentPage), this.cardTitleVM, new DrillInNavigationTransitionInfo());
         }
 
         private void DeleteImage_Tapped(object sender, TappedRoutedEventArgs e)
@@ -102,8 +134,9 @@ namespace CardDemo
             ListViewChangeItemEvent(this.cardTitleVM, null);
         }
 
-
+        
     }
+
 
     public class TimeFormatter : IValueConverter
     {
