@@ -118,7 +118,7 @@ namespace CardDemo
             CardContent clickVM = item.DataContext as CardContent;
             this.cardTitleVM.Contents.Remove(clickVM);
             //remove toast
-            if (clickVM.AlarmTime != null) {
+            if (clickVM.AlarmTime != null && clickVM.AlarmTime.Length>0) {
                 ToastUtil toastUtil = new ToastUtil();
                 toastUtil.removeToast(clickVM);
             }
@@ -164,7 +164,7 @@ namespace CardDemo
             //    this.content = value as string;
             //    return value;
             //}
-            if (value != null)
+            if (value != null && value.ToString().Length>0)
             {
                 
                 string text = "Alarm time：" + value.ToString();

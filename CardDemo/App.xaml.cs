@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -90,10 +91,19 @@ namespace CardDemo
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            MainPage rootPage = MainPage.Current;
+            StorageFolder storageFolder = KnownFolders.PicturesLibrary;
+            StorageFile sampleFile = await storageFolder.CreateFileAsync("cardJson.txt", CreationCollisionOption.ReplaceExisting);
+            //write
+            String text = rootPage.cardListModel.Stringify();
+            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, text);
+
+
+
             deferral.Complete();
         }
     }
