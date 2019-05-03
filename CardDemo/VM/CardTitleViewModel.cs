@@ -31,7 +31,7 @@ namespace CardDemo
             get { return headerTitle; }
             set {
                 headerTitle = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
 

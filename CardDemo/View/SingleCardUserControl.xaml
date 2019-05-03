@@ -67,7 +67,7 @@
     </UserControl.Resources>
 
     <Grid Width="330">
-        <StackPanel BorderThickness="1" BorderBrush="LightGray" CornerRadius="4" Height="562" VerticalAlignment="Top" >
+        <StackPanel x:Name="BGStackPanel" BorderThickness="1" BorderBrush="LightGray" CornerRadius="4" Height="562" VerticalAlignment="Top" >
             <RelativePanel Width="330" Height="60" Background="#f6f7f8">
                 <Button x:Name="cardContentNum" Content="{x:Bind cardTitleVM.Contents.Count,Mode=OneWay}" Style="{StaticResource ButtonStyle2}" Margin="10,0,0,0" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 <TextBlock x:Name="cardTitle" Text="{x:Bind cardTitleVM.HeaderTitle,Mode=OneWay}" VerticalAlignment="Center" RelativePanel.RightOf="cardContentNum" Margin="10" RelativePanel.AlignVerticalCenterWithPanel="True"/>
@@ -113,7 +113,8 @@
                       DragItemsCompleted="CardContentListView_DragItemsCompleted"
                       DragOver="CardContentListView_DragOver"
                       Drop="CardContentListView_Drop"
-                      ItemContainerStyle="{StaticResource colorsListViewItemStyle}">
+                      ItemContainerStyle="{StaticResource colorsListViewItemStyle}"
+                      IsItemClickEnabled="True" ItemClick="CardContentListView_ItemClick">
                 
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection/>
@@ -145,9 +146,7 @@
                 
             </ListView>
 
-
-
-
         </StackPanel>
+
     </Grid>
 </UserControl>

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -34,8 +35,6 @@ namespace CardDemo
             this.InitializeComponent();
             this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             Current = this;
-            //this.cardTitleVM = new CardTitleVM();
-            //this.cardListModel = new CardListModel();
 
             //get json
             getJsonText();
@@ -49,18 +48,26 @@ namespace CardDemo
             {
                 StorageFile sampleFile = await storageFolder.GetFileAsync("cardJson.txt");
                 string text = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
-                this.cardListModel = new CardListModel(text);
+                if (text.Length == 0)
+                {
+                    this.cardListViewModel = new CardListViewModel();
+                }
+                else {
+                    this.cardListViewModel = new CardListViewModel(text);
+                }
+                
             }
             catch (FileNotFoundException)
             {
                 // If the file dosn't exits it throws an exception, make fileExists false in this case 
-                this.cardListModel = new CardListModel();
+                this.cardListViewModel = new CardListViewModel();
             }
-            finally {
-                foreach (CardTitleViewModel singleVM in this.cardListModel.CardLists) {
+            finally
+            {
+                foreach (CardTitleViewModel singleVM in this.cardListViewModel.CardLists)
+                {
                     SingleCardUserControl singleCardUC = new SingleCardUserControl();
-                    singleCardUC.cardTitleVM.Contents = singleVM.Contents;
-                    singleCardUC.cardTitleVM.HeaderTitle = singleVM.HeaderTitle;
+                    singleCardUC.cardTitleVM = await Task.Run(() => singleVM);
                     singleCardUC.HorizontalAlignment = HorizontalAlignment.Left;
                     singleCardUC.Margin = new Thickness(15, 0, 0, 0);
                     singleCardUC.DeleteCardListEvent += deleteCardListAction;
@@ -75,7 +82,7 @@ namespace CardDemo
             
         }
 
-        public CardListModel cardListModel { get; set; }
+        public CardListViewModel cardListViewModel { get; set; }
         public static ObservableCollection<CardTitleViewModel> cardLists = new ObservableCollection<CardTitleViewModel>();
         private ObservableCollection<SingleCardUserControl> cardUCLists = new ObservableCollection<SingleCardUserControl>();
         private void AddListButton_Click(object sender, RoutedEventArgs e)
@@ -95,11 +102,10 @@ namespace CardDemo
                 ObservableCollection<CardTitleViewModel> lists = new ObservableCollection<CardTitleViewModel>();
                 lists.Add(new CardTitleViewModel { CardId = timeStamp, HeaderTitle = tipTextBox.Text, Contents = new ObservableCollection<CardContent>() });
                 //add userControl
-                this.cardListModel.CardLists = lists;
-                CardTitleViewModel lastVM = this.cardListModel.CardLists[0];
+                this.cardListViewModel.CardLists.Add(new CardTitleViewModel { CardId = timeStamp, HeaderTitle = tipTextBox.Text, Contents = new ObservableCollection<CardContent>() }); ;
+                CardTitleViewModel lastVM = this.cardListViewModel.CardLists[this.cardListViewModel.CardLists.Count-1];
                 SingleCardUserControl singleCardUC = new SingleCardUserControl();
-                singleCardUC.cardTitleVM.Contents = lastVM.Contents;
-                singleCardUC.cardTitleVM.HeaderTitle = tipTextBox.Text;
+                singleCardUC.cardTitleVM = lastVM;
                 singleCardUC.HorizontalAlignment = HorizontalAlignment.Left;
                 singleCardUC.Margin = new Thickness(15, 0, 0, 0);
                 singleCardUC.DeleteCardListEvent += deleteCardListAction;
@@ -107,8 +113,6 @@ namespace CardDemo
                 CardPanel.Children.Add(singleCardUC);
                 tipTextBox.Text = "";
                 tipTextBlock.Text = "";
-                //this.cardLists = lists;
-                //this.cardListModel.CardLists = lists;
                 this.cardUCLists.Add(singleCardUC);
             }
             else {
@@ -152,9 +156,9 @@ namespace CardDemo
             if (result == ContentDialogResult.Primary)
             {
                 int index = 0;
-                for (int i = 0; i < this.cardListModel.CardLists.Count; i++)
+                for (int i = 0; i < this.cardListViewModel.CardLists.Count; i++)
                 {
-                    CardTitleViewModel singleVM = this.cardListModel.CardLists[i];
+                    CardTitleViewModel singleVM = this.cardListViewModel.CardLists[i];
                     if (singleVM.CardId == model.CardId)
                     {
                         index = i;
@@ -164,7 +168,7 @@ namespace CardDemo
                 SingleCardUserControl deleteCardUC = this.cardUCLists[index];
                 CardPanel.Children.Remove(deleteCardUC);
                 this.cardUCLists.RemoveAt(index);
-                this.cardListModel.CardLists.RemoveAt(index);
+                this.cardListViewModel.CardLists.RemoveAt(index);
 
                 foreach (CardContent content in deleteCardUC.cardTitleVM.Contents) {
                     if (content.AlarmTime != null) {
@@ -172,7 +176,7 @@ namespace CardDemo
                         toastUtil.removeToast(content);
                     }
                 }
-
+               
             }
             
         }
@@ -191,5 +195,40 @@ namespace CardDemo
         {
 
         }
+
+        //private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        //{
+        //    int index = 0;
+        //    String text = this.cardListViewModel.Stringify();
+        //    ObservableCollection<CardTitleViewModel> oriCardContents = new ObservableCollection<CardTitleViewModel>();
+        //    //await Windows.Storage.FileIO.WriteTextAsync(sampleFile, text);
+        //    foreach (CardTitleViewModel singleVM in this.cardListViewModel.CardLists)
+        //        {
+        //            ObservableCollection<CardContent> queryCardContents = new ObservableCollection<CardContent>();
+        //            if (sender.Text.Length > 0)
+        //            {
+        //                foreach (CardContent content in singleVM.Contents)
+        //                {
+        //                    if (content.ContentTitle.Contains(sender.Text) || content.ContentDetail.Contains(sender.Text))
+        //                    {
+        //                        queryCardContents.Add(content);
+        //                    }
+        //                oriCardContents.Add(singleVM);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                queryCardContents = singleVM.Contents;
+        //            }
+
+        //            SingleCardUserControl uc = this.cardUCLists[index];
+        //            uc.cardTitleVM.Contents = queryCardContents;
+        //            index++;
+        //    }
+        //    this.cardListViewModel.CardLists = oriCardContents;
+            
+        //}
+
+        
     }
 }

@@ -12,7 +12,11 @@
     
     <Grid>
         <RelativePanel Height="90" VerticalAlignment="Top" Margin="0,30,0,0">
-            <Button x:Name="AddListButton" Width="40" Height="35" Click="AddListButton_Click" Margin="40,0,30,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+            <TextBlock FontSize="40" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="20,0,0,0">
+            <Run FontStyle="Italic">Welcome</Run>☺
+            </TextBlock>
+            <TextBlock x:Name="showTextBlock" FontSize="17"  Text="Add a card" Margin="15,0,30,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            <Button x:Name="AddListButton" Width="40" Height="35" Click="AddListButton_Click" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="showTextBlock">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
                 <FlyoutBase.AttachedFlyout>
                     <Flyout x:Name="addFlyout">
@@ -27,7 +31,6 @@
                 </FlyoutBase.AttachedFlyout>
 
             </Button>
-            <AutoSuggestBox PlaceholderText="Filter cards" Width="200" Height="35" QueryIcon="Find" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="AddListButton" />
         </RelativePanel>
         <StackPanel x:Name="CardPanel" Background="White" Margin="0,170,0,0" Orientation="Horizontal" AllowDrop="True" DragOver="CardPanel_DragOver" Drop="CardPanel_Drop">
             <!--<ListView ItemsSource="{x:Bind cardTitleVM.CardTitles,Mode=OneWay}" 

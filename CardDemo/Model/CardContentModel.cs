@@ -98,7 +98,7 @@ namespace CardDemo
             }
             
             SolidColorBrush colorBrush = (SolidColorBrush)statusColor;
-            string colorStr = colorBrush.Color.A + "," + colorBrush.Color.B + "," + colorBrush.Color.G + "," + colorBrush.Color.R;
+            string colorStr = colorBrush.Color.A + "," + colorBrush.Color.R + "," + colorBrush.Color.G + "," + colorBrush.Color.B;
             cardObject.SetNamedValue(statusColorKey, JsonValue.CreateStringValue(colorStr));
 
             JsonObject jsonObject = new JsonObject();

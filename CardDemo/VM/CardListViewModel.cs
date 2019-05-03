@@ -8,7 +8,7 @@ using Windows.Data.Json;
 
 namespace CardDemo
 {
-    public class CardListModel
+    public class CardListViewModel
     {
         private const string cardListsKey = "cardLists";
 
@@ -20,9 +20,9 @@ namespace CardDemo
             }
         }
 
-        public CardListModel() { }
+        public CardListViewModel() { }
 
-        public CardListModel(string jsonString) : this()
+        public CardListViewModel(string jsonString) : this()
         {
             JsonObject jsonObject = JsonObject.Parse(jsonString);
             foreach (IJsonValue jsonValue in jsonObject.GetNamedArray(cardListsKey, new JsonArray()))

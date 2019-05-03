@@ -116,7 +116,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CardListModel.cs" />
+    <Compile Include="VM\CardListViewModel.cs" />
     <Compile Include="ToastUtil.cs" />
     <Compile Include="View\AddCardContentPage.xaml.cs">
       <DependentUpon>AddCardContentPage.xaml</DependentUpon>

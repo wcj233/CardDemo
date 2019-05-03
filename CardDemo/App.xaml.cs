@@ -99,7 +99,7 @@ namespace CardDemo
             StorageFolder storageFolder = KnownFolders.PicturesLibrary;
             StorageFile sampleFile = await storageFolder.CreateFileAsync("cardJson.txt", CreationCollisionOption.ReplaceExisting);
             //write
-            String text = rootPage.cardListModel.Stringify();
+            String text = rootPage.cardListViewModel.Stringify();
             await Windows.Storage.FileIO.WriteTextAsync(sampleFile, text);
 
 

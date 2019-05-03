@@ -20,24 +20,37 @@
             <Setter Property="Margin" Value="20,10,0,0"></Setter>
             <Setter Property="Width" Value="300"></Setter>
         </Style>
+        <local:DataConverter x:Key="DataConverter" />
     </Page.Resources>
 
     <Grid>
         <StackPanel>
             <RelativePanel>
                 <Button Style="{StaticResource NavigationBackButtonNormalStyle}" Margin="10" Click="backToPre"/>
-                <TextBlock Text="Add a content" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="20" Margin="0,20,0,20"/>
+                <TextBlock Text="Add a content" x:Name="pageTitleTextBlock" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="20" Margin="0,20,0,20"/>
                 <Button x:Name="submitButton" Content="Submit" Click="SubmitAction" RelativePanel.AlignRightWithPanel="True" Margin="0,20,40,0">
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <TextBlock Text="Please refine the content."  />
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
                 </Button>
             </RelativePanel>
             <TextBlock Text="Enter title."/>
-            <TextBox x:Name="titleTextBox"></TextBox>
+            <TextBox x:Name="titleTextBox" Text="{x:Bind editCardContent.ContentTitle}"></TextBox>
             <TextBlock Text="Enter Content."/>
-            <TextBox x:Name="contentTextBox" Height="150"></TextBox>
+            <TextBox x:Name="contentTextBox" Height="150" Text="{x:Bind editCardContent.ContentDetail}"></TextBox>
             <TextBlock Text="Select Timing Alarm(Option)."/>
-            <TimePicker x:Name="alarmTime" Margin="20,10,0,0" SelectedTimeChanged="AlarmTime_SelectedTimeChanged"/>
+            <TimePicker x:Name="alarmTime" Margin="20,10,0,0" Time="{x:Bind editCardContent.AlarmTime,Converter={StaticResource DataConverter},ConverterParameter=TimePar}" SelectedTimeChanged="AlarmTime_SelectedTimeChanged">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <TextBlock Text="The selected time is less than the current time."  />
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </TimePicker>
             <TextBlock Text="Select a color marker."/>
             <ColorPicker x:Name="myColorPicker"
+                         Color="{x:Bind editCardContent.StatusColor,Converter={StaticResource DataConverter},ConverterParameter=ColorPar}"
              ColorSpectrumShape="Ring"
              IsColorPreviewVisible="False"
              IsColorChannelTextInputVisible="False"

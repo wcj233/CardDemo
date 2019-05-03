@@ -23,6 +23,9 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using System.Numerics;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Collections.ObjectModel;
+using Windows.UI.ViewManagement;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -42,12 +45,11 @@ namespace CardDemo
             deleteImage.Tapped += DeleteImage_Tapped;
             addImage.Tapped += AddImage_Tapped;
             cardContentListView.ContainerContentChanging += CardContentListView_ContainerContentChanging;
-
-            //shadow
-            //Visual gridVisual = ElementCompositionPreview.GetElementVisual();
-
-
-
+            NarrowVisual();
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += (s, e) =>
+            {
+                NarrowVisual();
+            };
         }
 
         private void CardContentListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -134,7 +136,34 @@ namespace CardDemo
             ListViewChangeItemEvent(this.cardTitleVM, null);
         }
 
-        
+       
+        private void CardContentListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ListView clickListView = sender as ListView;
+            CardContent clickContent = e.ClickedItem as CardContent;
+            Frame root = Window.Current.Content as Frame;
+            ObservableCollection<Object> lists = new ObservableCollection<Object>() { this.cardTitleVM, clickContent };
+            root.Navigate(typeof(AddCardContentPage), lists, new DrillInNavigationTransitionInfo());
+        }
+
+        private void NarrowVisual()
+
+        {
+
+            //Window.Current.Bounds.Width
+
+            //Window.Current.Bounds.Height
+            if (ApplicationView.GetForCurrentView().VisibleBounds.Height < 750)
+            {
+                BGStackPanel.Height = ApplicationView.GetForCurrentView().VisibleBounds.Height - 200;
+                cardContentListView.Height = BGStackPanel.Height - 62;
+            }
+            else {
+                BGStackPanel.Height = 562;
+                cardContentListView.Height = 500;
+            }
+            
+        }
     }
 
 
